@@ -1,6 +1,6 @@
 # Post-Notification
 
-This project sends notifications for Twitch and YouTube streams/videos.
+This project sends notifications for Twitch streams and YouTube videos.
 
 ## Prerequisites
 
