@@ -78,28 +78,29 @@ class Twitch {
             .setLabel("Watch Stream");
     }
 
-        static getEmbed(StreamURL, StreamTitle, GameName, ThumbnailURL, UserName, GameId, ProfilePicture) {
-            return new EmbedBuilder()
-                .setColor("Purple")
-                .setTitle(StreamTitle)
-                .setURL(StreamURL)
-                .setDescription(`${UserName} is now live on Twitch!`)
-                .addFields({
-                    name: "Playing", 
-                    value: `${GameName}`
-                })
-                .setImage(ThumbnailURL)
-                .setAuthor({
-                    name: `${UserName}`,
-                    iconURL: `${ProfilePicture}`
-                })
-                .setThumbnail(`https://static-cdn.jtvnw.net/ttv-boxart/${GameId}.jpg`)
-                .setTimestamp()
-                .setFooter({
-                    text: "Twitch",
-                    iconURL: "https://cdn.discordapp.com/attachments/695874779407974461/1244116166289657916/twitch-footer.png?ex=6653f0f8&is=66529f78&hm=aa6ba57abb00f9cfe24ea2d8fd34641239524a5cc44a75c15f02296c6560fb66&"
-                });
-        }    
+    static getEmbed(StreamURL, StreamTitle, GameName, ThumbnailURL, UserName, ViewerCount, ProfilePicture, GameId) {
+        return new EmbedBuilder()
+            .setColor("Purple")
+            .setTitle(StreamTitle)
+            .setURL(StreamURL)
+            .setDescription(`${UserName} is now live on Twitch!`)
+            .addFields({
+                name: "Playing",
+                value: GameName
+            })
+            .setImage(ThumbnailURL)
+            .setAuthor({
+                name: UserName,
+                iconURL: ProfilePicture,
+                url: StreamURL
+            })
+            .setThumbnail(`https://static-cdn.jtvnw.net/ttv-boxart/${GameId}.jpg`)
+            .setTimestamp()
+            .setFooter({
+                text: "Twitch",
+                iconURL: "https://cdn.discordapp.com/attachments/695874779407974461/1244116166289657916/twitch-footer.png?ex=6653f0f8&is=66529f78&hm=aa6ba57abb00f9cfe24ea2d8fd34641239524a5cc44a75c15f02296c6560fb66&"
+            });
+    }
 }
 
 module.exports = Twitch;
