@@ -34,8 +34,19 @@ async function sendTwitchAnnouncement() {
         const data = await TwitchNotifier.getStream(twitchToken, twitchUserId);
         if (data.length > 0 && !online) {
             online = true;
+            const stream = data[0];
+            const previewUrl = `${stream.thumbnail_url.replace('{width}', 1600).replace('{height}', 900)}?v=${Math.round(Math.random() * 1e10)}`
+            const embed = TwitchNotifier.getEmbed(
+                `https://www.twitch.tv/${process.env.TWITCH_USERNAME}`,
+                stream.title,
+                stream.game_name,
+                previewUrl,
+                stream.user_name,
+                stream.viewer_count,
+                pic,
+                stream.game_id,
+            );
             const button = TwitchNotifier.getButton(`https://www.twitch.tv/${process.env.TWITCH_USERNAME}`);
-            const embed = TwitchNotifier.getEmbed(`https://www.twitch.tv/${process.env.TWITCH_USERNAME}`, data[0].title, data[0].game_name, data[0].thumbnail_url.replace('{width}', '1920').replace('{height}', '1080'), data[0].user_name, data[0].viewer_count, pic);
             const row = new ActionRowBuilder().addComponents(button);
             const channel = client.channels.cache.get(process.env.STREAM_ANNOUNCE_ID);
             if (!channel) {
@@ -71,11 +82,13 @@ async function sendYouTubeAnnouncement() {
     }
 }
 
+
+
 client.once('ready', async () => {
     console.log(`Logged in as ${client.user.tag}!`);
     updateTwitchInfo();
     (updateTwitchInfo, 86400000); // Update Twitch info every 24 hours
-    setInterval(sendTwitchAnnouncement, 1000 * 60 * 5); // Check Twitch stream every 5 minutes
+    setInterval(sendTwitchAnnouncement, 1000 * 60 * 5); // Check Twitch stream every 3 minutes
     setInterval(sendYouTubeAnnouncement, 86400000); // Check Youtube every 24 hours
 });
 
